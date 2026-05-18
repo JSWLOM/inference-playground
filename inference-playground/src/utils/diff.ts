@@ -8,13 +8,13 @@ export interface DiffResult {
   type: TokenType;
 }
 
-// Step 1 — DP table banao
+// dp table 
 // dp[i][j] = length of LCS of first i words of A and first j words of B
 function buildLCSTable(a: string[], b: string[]): number[][] {
   const m = a.length;
   const n = b.length;
 
-  // 2D array initialize karo zeros se
+  // 2D array initialize from zero
   const dp: number[][] = Array.from(
     { length: m + 1 },
     () => new Array(n + 1).fill(0)
@@ -23,10 +23,10 @@ function buildLCSTable(a: string[], b: string[]): number[][] {
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
       if (a[i - 1].toLowerCase() === b[j - 1].toLowerCase()) {
-        // Words match — diagonal se aao
+        // Words match from diagonals
         dp[i][j] = dp[i - 1][j - 1] + 1;
       } else {
-        // Words dont match — max of top or left
+        // Words dont match max of top or left
         dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
       }
     }
@@ -35,7 +35,7 @@ function buildLCSTable(a: string[], b: string[]): number[][] {
   return dp;
 }
 
-// Step 2 — Backtrack karo table se diff nikalne ke liye
+// Backtrack from table to get diff results
 function backtrack(
   dp: number[][],
   a: string[],
@@ -45,11 +45,11 @@ function backtrack(
   leftAcc: DiffResult[],
   rightAcc: DiffResult[]
 ): void {
-  // Base case — koi ek array khatam ho gaya
+  // Base case 
   if (i === 0 && j === 0) return;
 
   if (i === 0) {
-    // A khatam — baaki sab B mein added hai
+    // A =removed rest in B = added
     backtrack(dp, a, b, i, j - 1, leftAcc, rightAcc);
     rightAcc.push({ text: b[j - 1], type: 'added' });
     return;
@@ -63,27 +63,27 @@ function backtrack(
   }
 
   if (a[i - 1].toLowerCase() === b[j - 1].toLowerCase()) {
-    // Same word — dono sides pe 'same'
+    // Same word- dono sides pe 'same'
     backtrack(dp, a, b, i - 1, j - 1, leftAcc, rightAcc);
     leftAcc.push({ text: a[i - 1], type: 'same' });
     rightAcc.push({ text: b[j - 1], type: 'same' });
   } else if (dp[i - 1][j] >= dp[i][j - 1]) {
-    // A se remove hua
+    // A se remove
     backtrack(dp, a, b, i - 1, j, leftAcc, rightAcc);
     leftAcc.push({ text: a[i - 1], type: 'removed' });
   } else {
-    // B mein add hua
+    // B mein add
     backtrack(dp, a, b, i, j - 1, leftAcc, rightAcc);
     rightAcc.push({ text: b[j - 1], type: 'added' });
   }
 }
 
-// Main function — yahi call karenge component se
+// Main function this will call from diff component
 export function computeDiff(
   v1: string,
   v2: string
 ): { left: DiffResult[]; right: DiffResult[] } {
-  // Words mein todo — punctuation bhi handle karo
+  // break in  Words
   const tokenize = (str: string) =>
     str.trim().split(/\s+/).filter(Boolean);
 
