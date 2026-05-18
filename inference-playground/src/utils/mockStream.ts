@@ -7,7 +7,7 @@ const MOCK_RESPONSES = [
   "React hooks allow you to use state and lifecycle features in functional components. useState manages local state, useEffect handles side effects, and custom hooks let you extract and reuse stateful logic across components.",
 ];
 
-export function createMockStream(prompt: string): ReadableStream<Uint8Array> {
+export function createMockStream(_prompt: string): ReadableStream<Uint8Array> {
   const response = MOCK_RESPONSES[Math.floor(Math.random() * MOCK_RESPONSES.length)];
   const words = response.split(' ');
   const encoder = new TextEncoder();
