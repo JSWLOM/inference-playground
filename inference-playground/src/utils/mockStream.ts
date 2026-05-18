@@ -1,5 +1,5 @@
-// Yeh function ek fake ReadableStream return karta hai
-// Real project mein yahan actual API call hogi
+// for fake streaming responses in development/testing
+// Real projects would connect to an actual streaming API endpoint instead
 
 const MOCK_RESPONSES = [
   "Large language models work by predicting the next token based on context. They are trained on vast amounts of text data using transformer architecture. The attention mechanism allows them to understand relationships between words across long sequences. Fine-tuning helps adapt these models to specific tasks efficiently.",

@@ -1,5 +1,5 @@
 // LCS based token-level diff algorithm
-// Khud likha hua — koi library nahi
+// self written not used from any library
 
 import type { TokenType } from '../components/DiffView/DiffToken';
 
